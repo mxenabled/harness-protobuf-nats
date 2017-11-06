@@ -37,3 +37,7 @@ end
   event = ::ActiveSupport::Notifications::Event.new(*args)
   ::Harness.timing "protobuf-nats.client.request_duration", event.duration
 end
+
+::ActiveSupport::Notifications.subscribe "client.subscription_pool_available_size.protobuf-nats" do |_, _, _, _, available_size|
+  ::Harness.count "protobuf-nats.client.subscription_pool_available_size", available_size
+end

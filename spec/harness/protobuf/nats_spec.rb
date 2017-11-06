@@ -40,6 +40,11 @@ describe ::Harness::Protobuf::Nats do
   end
 
   describe "client metrics" do
+    it "can instrument client.subscription_pool_available_size.protobuf-nats" do
+      expect(collector).to receive(:count).with("protobuf-nats.client.subscription_pool_available_size", 12)
+      ::ActiveSupport::Notifications.instrument "client.subscription_pool_available_size.protobuf-nats", 12
+    end
+
     it "can instrument client.request_timeout.protobuf-nats" do
       expect(collector).to receive(:increment).with("protobuf-nats.client.request_timeout")
       ::ActiveSupport::Notifications.instrument "client.request_timeout.protobuf-nats"
